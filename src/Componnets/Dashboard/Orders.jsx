@@ -12,7 +12,7 @@ export default function Orders() {
     const [user] = useAuthState(auth);
     useEffect(() => {
         setLoading(true);
-        axios.get(`http://localhost:5500/api/orders/${user?.email}`, {
+        axios.get(`https://car-parts-bangladesh.herokuapp.com/api/orders/${user?.email}`, {
             headers: {
                 authorization: `Bearer ${localStorage.getItem('aceessToken')}`
             }
@@ -57,7 +57,7 @@ export default function Orders() {
                                             <tr key={order?._id}>
                                                 <td>{index + 1}</td>
                                                 <td>
-                                                    <span class="flex items-center"> <img class="w-10 h-10" src={order?.image} alt="" /> {order?.productName}</span>
+                                                    <span className="flex items-center"> <img className="w-10 h-10" src={order?.image} alt="" /> {order?.productName}</span>
                                                 </td>
                                                 {/* <td>{order?._id}</td> */}
                                                 {/* <td>{order?.email}</td> */}

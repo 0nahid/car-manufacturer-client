@@ -7,7 +7,7 @@ import Loader from '../Shared/Loader';
 import Loading from '../Shared/Loading';
 
 export default function ManageProducts() {
-    const { data, isLoading, refetch } = useQuery(['products'], () => axios.get(`http://localhost:5500/api/services`, {
+    const { data, isLoading, refetch } = useQuery(['products'], () => axios.get(`https://car-parts-bangladesh.herokuapp.com/api/services`, {
         headers: {
             authorization: `Bearer ${localStorage.getItem('aceessToken')}`
         }
@@ -30,13 +30,13 @@ export default function ManageProducts() {
         }).then((result) => {
             if (result.value) {
                 // if confirmed, delete the product
-                axios.delete(`http://localhost:5500/api/services/${id}`, {
+                axios.delete(`https://car-parts-bangladesh.herokuapp.com/api/services/${id}`, {
                     headers: {
                         authorization: `Bearer ${localStorage.getItem('aceessToken')}`
                     }
                 })
                     .then(res => {
-                        console.log(res);
+                        // console.log(res);
                         Swal.fire(
                             'Deleted!',
                             'Your file has been deleted.',
