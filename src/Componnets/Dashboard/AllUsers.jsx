@@ -25,7 +25,7 @@ export default function AllUsers() {
         <>
           <div>
             <div className="overflow-x-auto flex justify-center items-center">
-              <table className="table w-full">
+              <table className="table">
                 <thead>
                   <tr>
                     <th>No</th>
