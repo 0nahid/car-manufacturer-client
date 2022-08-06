@@ -23,17 +23,17 @@ export default function Navbar() {
   const Navmenu = (
     <>
       <li className="py-1 lg:py-0 lg:mr-2">
-        <NavLink to="/" className="uppercase">
+        <NavLink to="/" className="uppercase font-bold">
           Home
         </NavLink>
       </li>
       <li className="py-1 lg:py-0 lg:mr-2">
-        <NavLink to="/shop" className="uppercase">
+        <NavLink to="/shop" className="uppercase font-bold">
           Shop
         </NavLink>
       </li>
       <li className="py-1 lg:py-0 lg:mr-2">
-        <NavLink to="/blogs" className="uppercase">
+        <NavLink to="/blogs" className="uppercase font-bold">
           Blogs
         </NavLink>
       </li>
@@ -41,23 +41,23 @@ export default function Navbar() {
                 user && <Link to="/portfolio">Portfolio</Link>
             } */}
       <li className="py-1 lg:py-0 lg:mr-2">
-        <NavLink to="/contact" className="uppercase">
+        <NavLink to="/contact" className="uppercase font-bold">
           Contact
         </NavLink>
       </li>
       {user && (
         <li className="py-1 lg:py-0 lg:mr-2">
-          <NavLink to="/dashboard" className="uppercase">
+          <Link to="/dashboard" className="uppercase font-bold bg-secondary text-white">
             Dashboard
-          </NavLink>
+          </Link>
         </li>
       )}
     </>
   );
   return (
     <>
-      <section className="bg-base-300 sticky top-0 z-50">
-        <div className="navbar border-b bg-base-300 backdrop-blur-2xl transition-colors duration-500 container mx-auto py-3 md:py-4"
+      <section className="bg-base-300 sticky top-0 z-50 border-b">
+        <div className="navbar bg-base-300 backdrop-blur-2xl transition-colors duration-500 container mx-auto py-3 md:py-4"
         style={
           pathname.includes("dashboard")
             ? { display: "none" }
@@ -71,7 +71,7 @@ export default function Navbar() {
               </label>
               <ul
                 tabIndex="0"
-                className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52"
+                className="menu menu-compact dropdown-content mt-3 p-2 shadow-xl border-l-2 border-primary bg-base-100 rounded-box w-52"
               >
                 {Navmenu}
               </ul>
@@ -120,12 +120,6 @@ export default function Navbar() {
                     tabIndex="0"
                     className="mt-3 p-2 shadow-xl menu menu-compact dropdown-content bg-base-100 rounded-box w-52"
                   >
-                    <li>
-                      <Link className="justify-between" to="/dashboard/profile">
-                        Profile
-                        <span className="badge">New</span>
-                      </Link>
-                    </li>
                     <li>
                       <Link to="/dashboard">Dashboard</Link>
                     </li>

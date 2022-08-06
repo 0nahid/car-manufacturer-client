@@ -5,10 +5,11 @@ import { Link, NavLink, Outlet } from "react-router-dom";
 import { RiArrowLeftSLine } from "react-icons/ri";
 import auth from "../../firebase.init";
 import useAdmin from "../../Hooks/useAdmin";
+import Loader from "../Shared/Loader";
 
 export default function Dashboard() {
   const [user] = useAuthState(auth);
-  const [admin] = useAdmin(user);
+  const [admin, adminLoading] = useAdmin(user);
   const Navmenu = (
     <li>
       {admin ? (
@@ -26,6 +27,11 @@ export default function Dashboard() {
       )}
     </li>
   );
+
+  if (adminLoading) {
+    return <Loader />;
+  }
+
   return (
     <div className="drawer">
       <Helmet>
