@@ -3,7 +3,7 @@ import "./Hero.css";
 
 const Hero = () => {
   return (
-    <div className=" -mt-20 lg:-mt-40 ">
+    <div className="-mt-72 lg:-mt-40 ">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mx-auto px-4 py-36 ">
         <div className="flex justify-center items-center gap-6 call_to_action">
           <div>
