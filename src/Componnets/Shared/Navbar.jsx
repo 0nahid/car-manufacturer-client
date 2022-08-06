@@ -1,67 +1,144 @@
-import { signOut } from 'firebase/auth';
-import React from 'react';
-import { useAuthState } from 'react-firebase-hooks/auth';
-import toast from 'react-hot-toast';
-import { Link, useNavigate } from "react-router-dom";
-import auth from '../../firebase.init';
+import { signOut } from "firebase/auth";
+import React from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
+import toast from "react-hot-toast";
+import { BsGrid } from "react-icons/bs";
+import { BiLogInCircle } from "react-icons/bi";
+import { Link, NavLink, useNavigate, useLocation } from "react-router-dom";
+import auth from "../../firebase.init";
 
 export default function Navbar() {
-    const [user] = useAuthState(auth)
-
-    const navigate = useNavigate();
-    const logout = () => {
-        signOut(auth);
-        toast.success(`Thank you, ${user?.displayName} to stay with us!`, {
-            position: "bottom-right",
-            autoClose: 5000,
-        });
-        localStorage.removeItem("accessToken");
-        navigate("/");
-    };
-    const Navmenu = (
-        <li className="font-bold">
-            <Link to="/">Home</Link>
-            <Link to="/shop">Shop</Link>
-            <Link to="/blogs">Blogs</Link>
-            {/* {
+  const [user] = useAuthState(auth);
+  const { pathname } = useLocation();
+  const navigate = useNavigate();
+  const logout = () => {
+    signOut(auth);
+    toast.success(`Thank you, ${user?.displayName} to stay with us!`, {
+      position: "bottom-right",
+      autoClose: 5000,
+    });
+    localStorage.removeItem("accessToken");
+    navigate("/");
+  };
+  const Navmenu = (
+    <>
+      <li className="py-1 lg:py-0 lg:mr-2">
+        <NavLink to="/" className="uppercase">
+          Home
+        </NavLink>
+      </li>
+      <li className="py-1 lg:py-0 lg:mr-2">
+        <NavLink to="/shop" className="uppercase">
+          Shop
+        </NavLink>
+      </li>
+      <li className="py-1 lg:py-0 lg:mr-2">
+        <NavLink to="/blogs" className="uppercase">
+          Blogs
+        </NavLink>
+      </li>
+      {/* {
                 user && <Link to="/portfolio">Portfolio</Link>
             } */}
-            <Link to="/contact">Contact</Link>
-            {
-                user && <Link to="/dashboard">Dashboard</Link>
-            }
-            {
-                user ? <button
-                    onClick={logout}
-                    className="btn btn-primary">Logout</button> : <Link to="/login">Login</Link>
-            }
+      <li className="py-1 lg:py-0 lg:mr-2">
+        <NavLink to="/contact" className="uppercase">
+          Contact
+        </NavLink>
+      </li>
+      {user && (
+        <li className="py-1 lg:py-0 lg:mr-2">
+          <NavLink to="/dashboard" className="uppercase">
+            Dashboard
+          </NavLink>
         </li>
-    )
-    return (
-        <>
-            <div className="navbar sticky top-0 z-40 border-b bg-slate-50/60 backdrop-blur-2xl transition-colors duration-500 dark:bg-[#0B1120]/80 ">
-                <div className="navbar-start">
-                    <div className="dropdown">
-                        <label tabIndex="0" className="btn btn-ghost lg:hidden">
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h8m-8 6h16" /></svg>
-                        </label>
-                        <ul tabIndex="0" className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52">
-                            {Navmenu}
-                        </ul>
-                    </div>
-                    <div className="hidden lg:flex">
-                        <Link to="/" className="btn btn-ghost normal-case text-2xl font-bold">Car parts</Link>
-                    </div>
-                </div>
-                <div className="navbar-end hidden lg:flex">
-                    <ul className="menu menu-horizontal p-0">
-                        {Navmenu}
-                    </ul>
-                </div>
-                <div className="navbar-end flex lg:hidden">
-                    <Link to="/" className="btn btn-ghost normal-case text-2xl font-bold">Car Parts</Link>
-                </div>
+      )}
+    </>
+  );
+  return (
+    <>
+      <section className="bg-base-300 sticky top-0 z-50">
+        <div className="navbar border-b bg-base-300 backdrop-blur-2xl transition-colors duration-500 container mx-auto py-3 md:py-4"
+        style={
+          pathname.includes("dashboard")
+            ? { display: "none" }
+            : { display: "flex" }
+        }
+        >
+          <div className="navbar-start">
+            <div className="dropdown">
+              <label tabIndex="0" className="btn btn-ghost lg:hidden">
+                <BsGrid className="text-3xl" />
+              </label>
+              <ul
+                tabIndex="0"
+                className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52"
+              >
+                {Navmenu}
+              </ul>
             </div>
-        </>
-    )
+            <Link
+              className="btn btn-ghost normal-case text-xl flex gap-2 items-center"
+              to="/"
+            >
+              <span className="text-xl md:text-2xl lg:text-3xl">Car Parts</span>
+            </Link>
+          </div>
+          <div className="navbar-center hidden lg:flex">
+            <ul className="menu menu-horizontal p-0 gap-3">{Navmenu}</ul>
+          </div>
+          <div className="navbar-end gap-3">
+            {!user && (
+              <NavLink
+                to="/login"
+                className="btn flex gap-2 items-center btn-primary"
+              >
+                <BiLogInCircle /> Login
+              </NavLink>
+            )}
+            {user && (
+              <div className="flex-none gap-2 mr-3">
+                <div className="dropdown dropdown-end">
+                  <label
+                    tabIndex="0"
+                    className="btn btn-ghost btn-circle avatar"
+                  >
+                    <div
+                      style={{ display: "grid" }}
+                      className="w-10 h-10 rounded-full border bg-base-300 grid place-items-center ring ring-primary ring-offset-base-100 ring-offset-2"
+                    >
+                      {auth?.currentUser?.photoURL ? (
+                        <img src={auth?.currentUser?.photoURL} alt="avatar" />
+                      ) : (
+                        <img
+                          src="https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?s=200"
+                          alt="profile"
+                        />
+                      )}
+                    </div>
+                  </label>
+                  <ul
+                    tabIndex="0"
+                    className="mt-3 p-2 shadow-xl menu menu-compact dropdown-content bg-base-100 rounded-box w-52"
+                  >
+                    <li>
+                      <Link className="justify-between" to="/dashboard/profile">
+                        Profile
+                        <span className="badge">New</span>
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to="/dashboard">Dashboard</Link>
+                    </li>
+                    <li>
+                      <button onClick={logout}>Logout</button>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      </section>
+    </>
+  );
 }
